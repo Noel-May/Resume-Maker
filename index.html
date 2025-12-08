@@ -4,342 +4,264 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resume Maker</title>
-  
-  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
   <style>
-    /* Root Variables */
-    :root {
-      --black: #0a0a0a;
-      --white: #f5f5f5;
-      --silver: #c0c0c0;
-      --gold: #ffd700;
-      --shadow: rgba(0,0,0,0.3);
-      --font-family: 'Poppins', sans-serif;
-    }
+    /* === General Reset === */
+    * {margin:0; padding:0; box-sizing:border-box;}
+    body {font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #f0f0f0, #dcdcdc); color: #111;}
+    button {cursor:pointer;}
 
-    /* Global */
-    body, html {
-      margin: 0; padding: 0;
-      font-family: var(--font-family);
-      background: var(--black);
-      color: var(--white);
-      overflow-x: hidden;
-    }
+    /* === Landing Page === */
+    #landingPage {display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; text-align:center; background: linear-gradient(120deg, #4A90E2, #9013FE);}
+    #landingPage h1 {font-size:3rem; color:white; margin-bottom:1rem;}
+    #landingPage p {font-size:1.2rem; color:white; margin-bottom:2rem;}
+    #startBtn {padding:1rem 2rem; font-size:1.2rem; border:none; border-radius:10px; background:white; color:#4A90E2; transition:0.3s;}
+    #startBtn:hover {transform:scale(1.1);}
 
-    /* Floating Particles */
-    #particlesContainer {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
-    }
-    .particle {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.7;
-      animation: floatUp linear infinite;
-    }
-    @keyframes floatUp {
-      0% { transform: translateY(100vh) scale(0.5); opacity:0.3; }
-      50% { opacity:0.7; }
-      100% { transform: translateY(-50vh) scale(1); opacity:0; }
-    }
+    /* === Form Section === */
+    #resumeBuilder {display:none; padding:2rem; max-width:1200px; margin:0 auto;}
+    form {display:grid; gap:1rem; background:white; padding:2rem; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.2);}
+    form label {font-weight:bold; margin-bottom:0.3rem;}
+    form input, form textarea, form select {padding:0.7rem; border:1px solid #ccc; border-radius:5px; width:100%; font-size:1rem;}
+    form textarea {resize:none;}
+    .form-section {display:grid; gap:0.5rem;}
 
-    /* Landing Page */
-    #landingPage {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: linear-gradient(45deg, #000000, #111111);
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-    .landing-container { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 50px; }
-    .landing-content h1 { font-size: 3rem; margin-bottom: 20px; }
-    .landing-content p { font-size: 1.3rem; margin-bottom: 30px; }
-    .landing-content button {
-      background: var(--gold);
-      color: var(--black);
-      padding: 15px 25px;
-      font-size: 1.2rem;
-      border-radius: 15px;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .landing-content button:hover { transform: scale(1.05); box-shadow: 0 10px 25px var(--shadow); }
-    .landing-animation .avatar {
-      font-size: 6rem;
-      animation: bounce 2s infinite;
-    }
-    @keyframes bounce { 0%,100%{transform:translateY(0);}50%{transform:translateY(-20px);} }
+    /* === Template Selector === */
+    #templateSelect {margin-top:1rem; padding:0.7rem; border-radius:5px; border:1px solid #ccc; font-size:1rem;}
 
-    /* Resume Builder */
-    #resumeBuilder { display: none; padding-bottom: 50px; position: relative; z-index: 1; }
-    header { text-align: center; padding: 50px 20px; }
-    header h1 { font-size: 2.5rem; margin: 0; color: var(--silver); }
-    header p { font-weight: 300; font-size: 1.2rem; }
+    /* === Resume Preview === */
+    #resumePreview {margin-top:2rem; padding:2rem; border-radius:15px; min-height:500px; overflow:hidden; transition:0.3s;}
+    .resume-section {margin-bottom:1rem;}
+    .section-title {font-size:1.5rem; font-weight:bold; margin-bottom:0.3rem; border-bottom:2px solid #ccc; display:inline-block;}
+    .info-text {font-size:1rem; margin-left:0.5rem;}
+    .skills-badge {display:inline-block; background:#4A90E2; color:white; padding:0.3rem 0.6rem; border-radius:5px; margin:0.2rem; font-size:0.9rem; transition:0.3s;}
+    .skills-badge:hover {transform:scale(1.1);}
 
-    .container {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;
-      padding: 0 20px;
+    /* === Buttons for Export === */
+    #actions {margin-top:1.5rem; display:flex; gap:1rem; flex-wrap:wrap;}
+    #actions button {padding:0.7rem 1.2rem; border:none; border-radius:10px; background:#4A90E2; color:white; font-size:1rem; transition:0.3s;}
+    #actions button:hover {transform:scale(1.05);}
+
+    /* === Templates Colors === */
+    .template-white {background:white; color:#111;}
+    .template-blue {background:#4A90E2; color:white;}
+    .template-gold {background:#FFD700; color:#111;}
+
+    /* === Print Friendly for PDF === */
+    @media print {
+      body {background:white;}
+      #resumePreview {width:210mm; min-height:297mm; padding:20mm; overflow:visible;}
+      .skills-badge {animation:none;}
     }
-    .card {
-      background: #111;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 10px 30px var(--shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      perspective: 1000px;
-    }
-    .card:hover { transform: rotateY(5deg) translateY(-10px); box-shadow: 0 20px 50px var(--shadow); }
-    .form-card { flex: 1 1 350px; max-width: 400px; }
-    .preview-card { flex: 1 1 450px; max-width: 550px; }
-
-    form label { font-weight: bold; margin-top: 15px; display: block; }
-    form input, form textarea, select {
-      width: 100%; padding: 12px; margin-top: 5px;
-      border-radius: 10px; border: none;
-      background: #222;
-      color: var(--white);
-      box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
-    }
-    form input:focus, form textarea:focus, select:focus {
-      outline: none;
-      box-shadow: 0 0 10px var(--gold);
-      transform: scale(1.02);
-    }
-
-    .button-group { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; }
-    button { flex:1 1 auto; padding:12px; border-radius:12px; font-weight:bold; cursor:pointer; border:none; background: var(--silver); color: var(--black); transition: transform 0.2s ease, box-shadow 0.3s ease; }
-    button:hover { transform: scale(1.05); box-shadow: 0 8px 25px var(--shadow); }
-
-    #resumePreview { padding: 20px; border-radius: 15px; }
-    .badge { display: inline-block; padding:5px 12px; border-radius:12px; margin: 4px; animation: badgePop 0.4s ease forwards; }
-    @keyframes badgePop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
-
-    /* Templates */
-    .template1 { background: #111; color: var(--silver); font-family:'Poppins',sans-serif; }
-    .template1 h2 { color: var(--gold); }
-    .template2 { background: #1a1a1a; color: var(--silver); font-family:'Georgia',serif; border:2px solid var(--silver);}
-    .template2 h2 { color: var(--silver); }
-    .template3 { background: #222; color: var(--gold); font-family:'Courier New', monospace; text-shadow:1px 1px 2px #000; }
-    .template3 h2 { font-size:2.2rem; }
-
-    @media(max-width:900px){ .container{flex-direction:column;align-items:center;} }
   </style>
 </head>
 <body>
-  <!-- Floating Particles Background -->
-  <div id="particlesContainer"></div>
 
   <!-- Landing Page -->
   <section id="landingPage">
-    <div class="landing-container">
-      <div class="landing-content">
-        <h1>🖋️ Create Your Resume in Minutes!</h1>
-        <p>Welcome to Resume Maker – Generate sleek, professional resumes with ease.</p>
-        <button id="startBtn"><i class="fas fa-arrow-right"></i> Start Creating</button>
-      </div>
-      <div class="landing-animation">
-        <div class="avatar">💼</div>
-      </div>
-    </div>
+    <h1>Resume Maker ✨</h1>
+    <p>Create a professional CV in minutes with 3 sleek templates!</p>
+    <button id="startBtn">Start Creating</button>
   </section>
 
   <!-- Resume Builder -->
   <section id="resumeBuilder">
-    <header>
-      <h1>Resume Maker</h1>
-      <p>Fill your details below and watch your live resume preview update!</p>
-    </header>
-
-    <div class="container">
-      <!-- Form Card -->
-      <div class="card form-card" id="formCard">
-        <h2><i class="fas fa-user-edit"></i> Enter Your Details</h2>
-        <form id="resumeForm">
-          <label>Full Name:</label>
-          <input type="text" id="name" placeholder="Your Name">
-
-          <label>Job Title:</label>
-          <input type="text" id="title" placeholder="Target Job">
-
-          <label>Summary / Headline:</label>
-          <textarea id="summary" placeholder="Brief professional summary"></textarea>
-
-          <label>Skills (comma-separated):</label>
-          <input type="text" id="skills" placeholder="e.g., JavaScript, Python">
-
-          <label>Education:</label>
-          <textarea id="education" placeholder="Degree, Institution, Year"></textarea>
-
-          <label>Certificates:</label>
-          <textarea id="certificates" placeholder="Certificate name, Organization"></textarea>
-
-          <label>Languages:</label>
-          <input type="text" id="languages" placeholder="e.g., English, Spanish">
-
-          <label>Job Description (for Match Job):</label>
-          <textarea id="jobDesc" placeholder="Paste job description here"></textarea>
-
-          <label>Select Resume Template:</label>
-          <select id="templateSelect">
-            <option value="template1">Template 1 - Sleek Black</option>
-            <option value="template2">Template 2 - Silver Classic</option>
-            <option value="template3">Template 3 - Gold Premium</option>
-          </select>
-
-          <div class="button-group">
-            <button type="button" id="saveDraft"><i class="fas fa-save"></i> Save Draft</button>
-            <button type="button" id="loadDraft"><i class="fas fa-folder-open"></i> Load Draft</button>
-            <button type="button" id="matchJob"><i class="fas fa-check-circle"></i> Match Job</button>
-            <button type="button" id="exportPdf"><i class="fas fa-file-pdf"></i> Export PDF</button>
-            <button type="button" id="exportDocx"><i class="fas fa-file-word"></i> Export DOCX</button>
-          </div>
-        </form>
+    <form id="resumeForm">
+      <div class="form-section">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" placeholder="Jane Doe">
       </div>
+      <div class="form-section">
+        <label for="jobTitle">Job Title</label>
+        <input type="text" id="jobTitle" placeholder="Frontend Developer">
+      </div>
+      <div class="form-section">
+        <label for="summary">Professional Summary</label>
+        <textarea id="summary" rows="3" placeholder="Write 2-3 sentences about yourself..."></textarea>
+      </div>
+      <div class="form-section">
+        <label for="skills">Skills (comma-separated)</label>
+        <input type="text" id="skills" placeholder="JavaScript, React, HTML, CSS">
+      </div>
+      <div class="form-section">
+        <label for="education">Education</label>
+        <input type="text" id="education" placeholder="BSc Computer Science, ABC University, 2022">
+      </div>
+      <div class="form-section">
+        <label for="certificates">Certificates</label>
+        <input type="text" id="certificates" placeholder="FreeCodeCamp Frontend, Coursera React">
+      </div>
+      <div class="form-section">
+        <label for="languages">Languages</label>
+        <input type="text" id="languages" placeholder="English, Spanish">
+      </div>
+      <div class="form-section">
+        <label for="jobDesc">Job Description (for matching)</label>
+        <textarea id="jobDesc" rows="3" placeholder="Paste the job description here..."></textarea>
+      </div>
+      <div class="form-section">
+        <label for="templateSelect">Choose Template</label>
+        <select id="templateSelect">
+          <option value="white">White</option>
+          <option value="blue">Blue</option>
+          <option value="gold">Gold</option>
+        </select>
+      </div>
+    </form>
 
-      <!-- Resume Preview Card -->
-      <div class="card preview-card" id="previewCard">
-        <h2><i class="fas fa-file-alt"></i> Live Resume Preview</h2>
-        <div id="resumePreview"></div>
+    <div id="actions">
+      <button id="matchJob">Match Job Description</button>
+      <button id="exportPDF">Export as PDF</button>
+      <button id="exportWord">Export as Word (DOCX)</button>
+    </div>
+
+    <div id="resumePreview" class="template-white">
+      <!-- Resume Sections -->
+      <div class="resume-section">
+        <div class="section-title">Full Name</div>
+        <div class="info-text" id="previewFullName"></div>
+      </div>
+      <div class="resume-section">
+        <div class="section-title">Job Title</div>
+        <div class="info-text" id="previewJobTitle"></div>
+      </div>
+      <div class="resume-section">
+        <div class="section-title">Professional Summary</div>
+        <div class="info-text" id="previewSummary"></div>
+      </div>
+      <div class="resume-section">
+        <div class="section-title">Skills</div>
+        <div class="info-text" id="previewSkills"></div>
+      </div>
+      <div class="resume-section">
+        <div class="section-title">Education</div>
+        <div class="info-text" id="previewEducation"></div>
+      </div>
+      <div class="resume-section">
+        <div class="section-title">Certificates</div>
+        <div class="info-text" id="previewCertificates"></div>
+      </div>
+      <div class="resume-section">
+        <div class="section-title">Languages</div>
+        <div class="info-text" id="previewLanguages"></div>
+      </div>
+      <div class="resume-section">
+        <div class="section-title">Job Match Score</div>
+        <div class="info-text" id="previewJobMatch"></div>
       </div>
     </div>
   </section>
 
-  <!-- JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- JS Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
   <script>
-    // Landing page start button
-    document.getElementById("startBtn").addEventListener("click", () => {
-      document.getElementById("landingPage").style.display = "none";
-      document.getElementById("resumeBuilder").style.display = "block";
+    // === Elements ===
+    const landingPage = document.getElementById('landingPage');
+    const startBtn = document.getElementById('startBtn');
+    const resumeBuilder = document.getElementById('resumeBuilder');
+    const resumeForm = document.getElementById('resumeForm');
+    const templateSelect = document.getElementById('templateSelect');
+    const resumePreview = document.getElementById('resumePreview');
+
+    const previewFullName = document.getElementById('previewFullName');
+    const previewJobTitle = document.getElementById('previewJobTitle');
+    const previewSummary = document.getElementById('previewSummary');
+    const previewSkills = document.getElementById('previewSkills');
+    const previewEducation = document.getElementById('previewEducation');
+    const previewCertificates = document.getElementById('previewCertificates');
+    const previewLanguages = document.getElementById('previewLanguages');
+    const previewJobMatch = document.getElementById('previewJobMatch');
+
+    const matchJobBtn = document.getElementById('matchJob');
+    const exportPDFBtn = document.getElementById('exportPDF');
+    const exportWordBtn = document.getElementById('exportWord');
+
+    // === Landing Page ===
+    startBtn.addEventListener('click', () => {
+      landingPage.style.display = 'none';
+      resumeBuilder.style.display = 'block';
     });
 
-    const resumeForm = document.getElementById("resumeForm");
-    const resumePreview = document.getElementById("resumePreview");
-
-    function updatePreview() {
-      const name = document.getElementById("name").value || "Your Name";
-      const title = document.getElementById("title").value || "Job Title";
-      const summary = document.getElementById("summary").value || "Professional summary here.";
-      const skills = document.getElementById("skills").value.split(",").map(s => s.trim()).filter(Boolean);
-      const education = document.getElementById("education").value || "Education here";
-      const certificates = document.getElementById("certificates").value || "Certificates here";
-      const languages = document.getElementById("languages").value || "Languages here";
-
-      const selectedTemplate = document.getElementById("templateSelect").value;
-      resumePreview.className = "";
-      resumePreview.classList.add(selectedTemplate);
-
-      let skillHTML = "";
-      skills.forEach((s,i) => { skillHTML += `<span class="badge" style="animation-delay:${i*0.1}s">${s}</span>`; });
-
-      resumePreview.innerHTML = `
-        <h2>${name} — ${title}</h2>
-        <h3>Summary</h3><p>${summary}</p>
-        <h3>Skills</h3>${skillHTML}
-        <h3>Education</h3><p>${education}</p>
-        <h3>Certificates</h3><p>${certificates}</p>
-        <h3>Languages</h3><p>${languages}</p>
-      `;
-    }
-
-    function saveDraft() {
-      const data = {};
-      ["name","title","summary","skills","education","certificates","languages","jobDesc"].forEach(id => { data[id]=document.getElementById(id).value; });
-      localStorage.setItem("resumeDraft", JSON.stringify(data));
-      alert("Draft saved!");
-    }
-
-    function loadDraft() {
-      const data = JSON.parse(localStorage.getItem("resumeDraft"));
-      if(!data){ alert("No draft found!"); return; }
-      Object.keys(data).forEach(id => { document.getElementById(id).value = data[id]; });
-      updatePreview();
-    }
-
-    function matchJob() {
-      const jobDesc = document.getElementById("jobDesc").value.toLowerCase();
-      const text = Object.values({
-        name: document.getElementById("name").value,
-        title: document.getElementById("title").value,
-        summary: document.getElementById("summary").value,
-        skills: document.getElementById("skills").value,
-        education: document.getElementById("education").value,
-        certificates: document.getElementById("certificates").value,
-        languages: document.getElementById("languages").value
-      }).join(" ").toLowerCase();
-      
-      const words = jobDesc.split(/\s+/).filter(Boolean);
-      let matched = words.filter(w=>text.includes(w)).length;
-      alert(`Job match: ${Math.round((matched/words.length)*100)}%`);
-    }
-
-    function exportPdf() {
-      html2canvas(resumePreview).then(canvas=>{
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jspdf.jsPDF();
-        const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height*pdfWidth)/imgProps.width;
-        pdf.addImage(imgData,"PNG",0,0,pdfWidth,pdfHeight);
-        pdf.save("resume.pdf");
+    // === Live Preview Function ===
+    resumeForm.addEventListener('input', () => {
+      previewFullName.textContent = document.getElementById('fullName').value;
+      previewJobTitle.textContent = document.getElementById('jobTitle').value;
+      previewSummary.textContent = document.getElementById('summary').value;
+      previewSkills.innerHTML = '';
+      const skillsArray = document.getElementById('skills').value.split(',');
+      skillsArray.forEach(skill => {
+        if(skill.trim()!=='') {
+          const span = document.createElement('span');
+          span.className = 'skills-badge';
+          span.textContent = skill.trim();
+          previewSkills.appendChild(span);
+        }
       });
-    }
+      previewEducation.textContent = document.getElementById('education').value;
+      previewCertificates.textContent = document.getElementById('certificates').value;
+      previewLanguages.textContent = document.getElementById('languages').value;
+    });
 
-    function exportDocx() {
-      const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
-                     "xmlns:w='urn:schemas-microsoft-com:office:word' "+
-                     "xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Resume</title></head><body>";
-      const footer = "</body></html>";
-      const content = header+resumePreview.innerHTML+footer;
-      const blob = new Blob(['\ufeff', content],{type:'application/msword'});
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = "resume.docx";
-      document.body.appendChild(link); link.click(); document.body.removeChild(link);
-    }
+    // === Template Change ===
+    templateSelect.addEventListener('change', () => {
+      resumePreview.className = '';
+      if(templateSelect.value==='white') resumePreview.classList.add('template-white');
+      if(templateSelect.value==='blue') resumePreview.classList.add('template-blue');
+      if(templateSelect.value==='gold') resumePreview.classList.add('template-gold');
+    });
 
-    resumeForm.addEventListener("input", updatePreview);
-    document.getElementById("templateSelect").addEventListener("change", updatePreview);
-    document.getElementById("saveDraft").addEventListener("click", saveDraft);
-    document.getElementById("loadDraft").addEventListener("click", loadDraft);
-    document.getElementById("matchJob").addEventListener("click", matchJob);
-    document.getElementById("exportPdf").addEventListener("click", exportPdf);
-    document.getElementById("exportDocx").addEventListener("click", exportDocx);
+    // === Job Match Function ===
+    matchJobBtn.addEventListener('click', () => {
+      const skills = document.getElementById('skills').value.toLowerCase().split(',');
+      const jobDesc = document.getElementById('jobDesc').value.toLowerCase();
+      let matchCount = 0;
+      skills.forEach(skill => {
+        if(jobDesc.includes(skill.trim())) matchCount++;
+      });
+      const matchPercent = skills.length ? Math.round((matchCount/skills.length)*100) : 0;
+      previewJobMatch.textContent = matchPercent + '%';
+      alert(`Job Match Score: ${matchPercent}%`);
+    });
 
-    // Initial preview
-    updatePreview();
+    // === PDF Export ===
+    exportPDFBtn.addEventListener('click', () => {
+      html2canvas(resumePreview, {scale:2}).then(canvas=>{
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jspdf.jsPDF('p','mm','a4');
+        const pdfWidth = 210;
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        pdf.addImage(imgData,'PNG',0,0,pdfWidth,pdfHeight);
+        pdf.save('resume.pdf');
+      });
+    });
 
-    // Floating particles
-    const particlesContainer = document.getElementById("particlesContainer");
-    const colors = ["#ffd700","#c0c0c0","#ffffff"];
-    function createParticles(num){
-      for(let i=0;i<num;i++){
-        const particle = document.createElement("div");
-        particle.classList.add("particle");
-        const size = Math.random()*10 + 5;
-        particle.style.width = size + "px";
-        particle.style.height = size + "px";
-        particle.style.left = Math.random()*100 + "vw";
-        particle.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
-        particle.style.animationDuration = (Math.random()*10 + 5) + "s";
-        particle.style.animationDelay = Math.random()*5 + "s";
-        particlesContainer.appendChild(particle);
-      }
-    }
-    createParticles(50);
+    // === Word Export ===
+    exportWordBtn.addEventListener('click', () => {
+      let content = `
+      <html>
+        <head>
+          <style>
+            body {font-family: Arial, sans-serif; padding:20px;}
+            h2 {color:#4A90E2; border-bottom:1px solid #ccc;}
+            .section {margin-bottom:15px;}
+          </style>
+        </head>
+        <body>
+          <h1>${document.getElementById('fullName').value}</h1>
+          <h2>Job Title</h2><p>${document.getElementById('jobTitle').value}</p>
+          <h2>Professional Summary</h2><p>${document.getElementById('summary').value}</p>
+          <h2>Skills</h2><p>${document.getElementById('skills').value}</p>
+          <h2>Education</h2><p>${document.getElementById('education').value}</p>
+          <h2>Certificates</h2><p>${document.getElementById('certificates').value}</p>
+          <h2>Languages</h2><p>${document.getElementById('languages').value}</p>
+        </body>
+      </html>`;
+      const blob = new Blob(['\ufeff', content], {type:'application/msword'});
+      saveAs(blob, 'resume.doc');
+    });
   </script>
 </body>
 </html>
