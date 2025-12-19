@@ -31,7 +31,6 @@ resumeForm.addEventListener('input', () => {
   previewJobTitle.textContent = document.getElementById('jobTitle').value;
   previewSummary.textContent = document.getElementById('summary').value;
 
-  // Skills as badges
   previewSkills.innerHTML = '';
   const skillsArray = document.getElementById('skills').value.split(',');
   skillsArray.forEach(skill => {
@@ -51,7 +50,9 @@ resumeForm.addEventListener('input', () => {
 // === Template Change ===
 templateSelect.addEventListener('change', () => {
   resumePreview.className = '';
-  resumePreview.classList.add(`template-${templateSelect.value}`);
+  if(templateSelect.value==='white') resumePreview.classList.add('template-white');
+  if(templateSelect.value==='blue') resumePreview.classList.add('template-blue');
+  if(templateSelect.value==='gold') resumePreview.classList.add('template-gold');
 });
 
 // === Job Match Function ===
@@ -59,7 +60,9 @@ matchJobBtn.addEventListener('click', () => {
   const skills = document.getElementById('skills').value.toLowerCase().split(',');
   const jobDesc = document.getElementById('jobDesc').value.toLowerCase();
   let matchCount = 0;
-  skills.forEach(skill => { if(jobDesc.includes(skill.trim())) matchCount++; });
+  skills.forEach(skill => {
+    if(jobDesc.includes(skill.trim())) matchCount++;
+  });
   const matchPercent = skills.length ? Math.round((matchCount/skills.length)*100) : 0;
   previewJobMatch.textContent = matchPercent + '%';
   alert(`Job Match Score: ${matchPercent}%`);
@@ -79,24 +82,23 @@ exportPDFBtn.addEventListener('click', () => {
 
 // === Word Export ===
 exportWordBtn.addEventListener('click', () => {
-  let content = `
-  <html>
-    <head>
-      <style>
-        body {font-family: Arial, sans-serif; padding:20px;}
-        h2 {color:#4A90E2; border-bottom:1px solid #ccc;}
-        .section {margin-bottom:15px;}
-      </style>
-    </head>
-    <body>
-      <h1>${document.getElementById('fullName').value}</h1>
-      <h2>Job Title</h2><p>${document.getElementById('jobTitle').value}</p>
-      <h2>Professional Summary</h2><p>${document.getElementById('summary').value}</p>
-      <h2>Skills</h2><p>${document.getElementById('skills').value}</p>
-      <h2>Education</h2><p>${document.getElementById('education').value}</p>
-      <h2>Certificates</h2><p>${document.getElementById('certificates').value}</p>
-      <h2>Languages</h2><p>${document.getElementById('languages').value}</p>
-    </body>
+  let content = `<html>
+  <head>
+    <style>
+      body {font-family: Arial, sans-serif; padding:20px;}
+      h2 {color:#4A90E2; border-bottom:1px solid #ccc;}
+      .section {margin-bottom:15px;}
+    </style>
+  </head>
+  <body>
+    <h1>${document.getElementById('fullName').value}</h1>
+    <h2>Job Title</h2><p>${document.getElementById('jobTitle').value}</p>
+    <h2>Professional Summary</h2><p>${document.getElementById('summary').value}</p>
+    <h2>Skills</h2><p>${document.getElementById('skills').value}</p>
+    <h2>Education</h2><p>${document.getElementById('education').value}</p>
+    <h2>Certificates</h2><p>${document.getElementById('certificates').value}</p>
+    <h2>Languages</h2><p>${document.getElementById('languages').value}</p>
+  </body>
   </html>`;
   const blob = new Blob(['\ufeff', content], {type:'application/msword'});
   saveAs(blob, 'resume.doc');
