@@ -3,110 +3,91 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resume Maker</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Dynamic Resume Maker</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
-  <!-- Landing Page -->
+  <!-- ======================= -->
+  <!--        LANDING PAGE     -->
+  <!-- ======================= -->
   <section id="landingPage">
-    <h1>Resume Maker ✨</h1>
-    <p>Create a professional CV in minutes with 3 sleek templates!</p>
+    <div class="stars"></div>
+    <div class="stars"></div>
+    <div class="stars"></div>
+    <h1 id="landingTitle">Resume Maker ✨</h1>
+    <p>Black & White Theme with dynamic animations!</p>
+    <i class="fas fa-briefcase briefcase"></i>
     <button id="startBtn">Start Creating</button>
   </section>
 
-  <!-- Resume Builder -->
+  <!-- ======================= -->
+  <!--     RESUME BUILDER      -->
+  <!-- ======================= -->
   <section id="resumeBuilder">
-    <form id="resumeForm">
-      <div class="form-section">
-        <label for="fullName">Full Name</label>
-        <input type="text" id="fullName" placeholder="Jane Doe">
-      </div>
-      <div class="form-section">
-        <label for="jobTitle">Job Title</label>
-        <input type="text" id="jobTitle" placeholder="Frontend Developer">
-      </div>
-      <div class="form-section">
-        <label for="summary">Professional Summary</label>
-        <textarea id="summary" rows="3" placeholder="Write 2-3 sentences about yourself..."></textarea>
-      </div>
-      <div class="form-section">
-        <label for="skills">Skills (comma-separated)</label>
-        <input type="text" id="skills" placeholder="JavaScript, React, HTML, CSS">
-      </div>
-      <div class="form-section">
-        <label for="education">Education</label>
-        <input type="text" id="education" placeholder="BSc Computer Science, ABC University, 2022">
-      </div>
-      <div class="form-section">
-        <label for="certificates">Certificates</label>
-        <input type="text" id="certificates" placeholder="FreeCodeCamp Frontend, Coursera React">
-      </div>
-      <div class="form-section">
-        <label for="languages">Languages</label>
-        <input type="text" id="languages" placeholder="English, Spanish">
-      </div>
-      <div class="form-section">
-        <label for="jobDesc">Job Description (for matching)</label>
-        <textarea id="jobDesc" rows="3" placeholder="Paste the job description here..."></textarea>
-      </div>
-      <div class="form-section">
-        <label for="templateSelect">Choose Template</label>
-        <select id="templateSelect">
-          <option value="white">White</option>
-          <option value="blue">Blue</option>
-          <option value="gold">Gold</option>
-        </select>
-      </div>
-    </form>
+    <div class="container">
+      <form id="resumeForm">
+        <h2>Fill Your Details</h2>
+        <div class="form-section">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" placeholder="Jane Doe">
+        </div>
+        <div class="form-section">
+          <label for="jobTitle">Job Title</label>
+          <input type="text" id="jobTitle" placeholder="Frontend Developer">
+        </div>
+        <div class="form-section">
+          <label for="summary">Professional Summary</label>
+          <textarea id="summary" rows="3" placeholder="2-3 sentences about yourself"></textarea>
+        </div>
+        <div class="form-section">
+          <label for="skills">Skills (comma-separated)</label>
+          <input type="text" id="skills" placeholder="JavaScript, React, HTML, CSS">
+        </div>
+        <div class="form-section">
+          <label for="education">Education</label>
+          <input type="text" id="education" placeholder="BSc Computer Science, ABC University, 2022">
+        </div>
+        <div class="form-section">
+          <label for="certificates">Certificates</label>
+          <input type="text" id="certificates" placeholder="FreeCodeCamp Frontend, Coursera React">
+        </div>
+        <div class="form-section">
+          <label for="languages">Languages</label>
+          <input type="text" id="languages" placeholder="English, Spanish">
+        </div>
+        <div class="form-section">
+          <label for="jobDesc">Job Description</label>
+          <textarea id="jobDesc" rows="3" placeholder="Paste the job description here..."></textarea>
+        </div>
+        <div class="form-section">
+          <label for="templateSelect">Choose Template</label>
+          <select id="templateSelect">
+            <option value="white">White</option>
+            <option value="black">Black</option>
+          </select>
+        </div>
+        <div id="actions">
+          <button id="matchJob">Match Job Description</button>
+          <button id="exportPDF">Export as PDF</button>
+          <button id="exportWord">Export as Word (DOCX)</button>
+        </div>
+      </form>
 
-    <div id="actions">
-      <button id="matchJob">Match Job Description</button>
-      <button id="exportPDF">Export as PDF</button>
-      <button id="exportWord">Export as Word (DOCX)</button>
-    </div>
-
-    <div id="resumePreview" class="template-white">
-      <div class="resume-section">
-        <div class="section-title">Full Name</div>
-        <div class="info-text" id="previewFullName"></div>
-      </div>
-      <div class="resume-section">
-        <div class="section-title">Job Title</div>
-        <div class="info-text" id="previewJobTitle"></div>
-      </div>
-      <div class="resume-section">
-        <div class="section-title">Professional Summary</div>
-        <div class="info-text" id="previewSummary"></div>
-      </div>
-      <div class="resume-section">
-        <div class="section-title">Skills</div>
-        <div class="info-text" id="previewSkills"></div>
-      </div>
-      <div class="resume-section">
-        <div class="section-title">Education</div>
-        <div class="info-text" id="previewEducation"></div>
-      </div>
-      <div class="resume-section">
-        <div class="section-title">Certificates</div>
-        <div class="info-text" id="previewCertificates"></div>
-      </div>
-      <div class="resume-section">
-        <div class="section-title">Languages</div>
-        <div class="info-text" id="previewLanguages"></div>
-      </div>
-      <div class="resume-section">
-        <div class="section-title">Job Match Score</div>
-        <div class="info-text" id="previewJobMatch"></div>
+      <div id="resumePreview" class="template-white">
+        <h2 id="previewFullName">Full Name</h2>
+        <h3 id="previewJobTitle">Job Title</h3>
+        <p id="previewSummary">Professional Summary</p>
+        <div id="previewSkills">Skills will appear here</div>
+        <p id="previewEducation">Education</p>
+        <p id="previewCertificates">Certificates</p>
+        <p id="previewLanguages">Languages</p>
+        <p id="previewJobMatch">Job Match Score</p>
       </div>
     </div>
   </section>
 
-  <!-- JS Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <!-- JS -->
   <script src="script.js"></script>
 </body>
 </html>
