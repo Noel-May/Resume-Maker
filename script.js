@@ -31,6 +31,7 @@ resumeForm.addEventListener('input', () => {
   previewJobTitle.textContent = document.getElementById('jobTitle').value;
   previewSummary.textContent = document.getElementById('summary').value;
 
+  // Skills as badges
   previewSkills.innerHTML = '';
   const skillsArray = document.getElementById('skills').value.split(',');
   skillsArray.forEach(skill => {
