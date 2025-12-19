@@ -33,4 +33,73 @@
       </div>
       <div class="form-section">
         <label for="skills">Skills (comma-separated)</label>
-        <input type="text" id="skills" placeholder="JavaScript, React, HTML,
+        <input type="text" id="skills" placeholder="JavaScript, React, HTML, CSS">
+      </div>
+      <div class="form-section">
+        <label for="education">Education</label>
+        <input type="text" id="education" placeholder="BSc Computer Science, ABC University, 2022">
+      </div>
+      <div class="form-section">
+        <label for="certificates">Certificates</label>
+        <input type="text" id="certificates" placeholder="FreeCodeCamp Frontend, Coursera React">
+      </div>
+      <div class="form-section">
+        <label for="languages">Languages</label>
+        <input type="text" id="languages" placeholder="English, Spanish">
+      </div>
+      <div class="form-section">
+        <label for="jobDesc">Job Description (for matching)</label>
+        <textarea id="jobDesc" rows="3" placeholder="Paste the job description here..."></textarea>
+      </div>
+      <div class="form-section">
+        <label for="templateSelect">Choose Template</label>
+        <select id="templateSelect">
+          <option value="white">White</option>
+          <option value="blue">Blue</option>
+          <option value="gold">Gold</option>
+        </select>
+      </div>
+    </form>
+
+    <div id="actions">
+      <button id="matchJob">Match Job Description</button>
+      <button id="exportPDF">Export as PDF</button>
+      <button id="exportWord">Export as Word (DOCX)</button>
+    </div>
+
+    <div id="resumePreview" class="template-white">
+      <!-- Resume Sections -->
+      <div class="resume-section">
+        <div class="section-title">Full Name</div>
+        <div class="info-text" id="previewFullName"></div>
+      </div>
+      <div class="resume-section">
+        <div class="section-title">Job Title</div>
+        <div class="info-text" id="previewJobTitle"></div>
+      </div>
+      <div class="resume-section">
+        <div class="section-title">Professional Summary</div>
+        <div class="info-text" id="previewSummary"></div>
+      </div>
+      <div class="resume-section">
+        <div class="section-title">Skills</div>
+        <div class="info-text" id="previewSkills"></div>
+      </div>
+      <div class="resume-section">
+        <div class="section-title">Education</div>
+        <div class="info-text" id="previewEducation"></div>
+      </div>
+      <div class="resume-section">
+        <div class="section-title">Certificates</div>
+        <div class="info-text" id="previewCertificates"></div>
+      </div>
+      <div class="resume-section">
+        <div class="section-title">Languages</div>
+        <div class="info-text" id="previewLanguages"></div>
+      </div>
+      <div class="resume-section">
+        <div class="section-title">Job Match Score</div>
+        <div class="info-text" id="previewJobMatch"></div>
+      </div>
+    </div>
+  </
