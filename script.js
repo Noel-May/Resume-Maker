@@ -1,11 +1,9 @@
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-}
+const startBtn = document.getElementById('startBtn');
+const landingPage = document.getElementById('landingPage');
+const resumeBuilder = document.getElementById('resumeBuilder');
 
 
-body {
-font-family: Arial, sans-serif;
-background: linear-gradient(135deg, #f0f0f0, #dcdcdc);
-}
+startBtn.addEventListener('click', () => {
+landingPage.style.display = 'none';
+resumeBuilder.style.display = 'block';
+});
