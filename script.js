@@ -1,7 +1,4 @@
 // === ELEMENTS ===
-const landingPage = document.getElementById('landingPage');
-const startBtn = document.getElementById('startBtn');
-const resumeBuilder = document.getElementById('resumeBuilder');
 const resumeForm = document.getElementById('resumeForm');
 const templateSelect = document.getElementById('templateSelect');
 const resumePreview = document.getElementById('resumePreview');
@@ -18,12 +15,6 @@ const previewJobMatch = document.getElementById('previewJobMatch');
 const matchJobBtn = document.getElementById('matchJob');
 const exportPDFBtn = document.getElementById('exportPDF');
 const exportWordBtn = document.getElementById('exportWord');
-
-// === LANDING PAGE ===
-startBtn.addEventListener('click', () => {
-  landingPage.style.display = 'none';
-  resumeBuilder.style.display = 'flex';
-});
 
 // === LIVE PREVIEW ===
 resumeForm.addEventListener('input', () => {
