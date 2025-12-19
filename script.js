@@ -1,4 +1,4 @@
-// === Elements ===
+// === ELEMENTS ===
 const landingPage = document.getElementById('landingPage');
 const startBtn = document.getElementById('startBtn');
 const resumeBuilder = document.getElementById('resumeBuilder');
@@ -19,13 +19,13 @@ const matchJobBtn = document.getElementById('matchJob');
 const exportPDFBtn = document.getElementById('exportPDF');
 const exportWordBtn = document.getElementById('exportWord');
 
-// === Landing Page ===
+// === LANDING PAGE ===
 startBtn.addEventListener('click', () => {
   landingPage.style.display = 'none';
-  resumeBuilder.style.display = 'block';
+  resumeBuilder.style.display = 'flex';
 });
 
-// === Live Preview Function ===
+// === LIVE PREVIEW ===
 resumeForm.addEventListener('input', () => {
   previewFullName.textContent = document.getElementById('fullName').value;
   previewJobTitle.textContent = document.getElementById('jobTitle').value;
@@ -34,9 +34,8 @@ resumeForm.addEventListener('input', () => {
   previewSkills.innerHTML = '';
   const skillsArray = document.getElementById('skills').value.split(',');
   skillsArray.forEach(skill => {
-    if(skill.trim()!=='') {
+    if(skill.trim()!==''){
       const span = document.createElement('span');
-      span.className = 'skills-badge';
       span.textContent = skill.trim();
       previewSkills.appendChild(span);
     }
@@ -47,28 +46,25 @@ resumeForm.addEventListener('input', () => {
   previewLanguages.textContent = document.getElementById('languages').value;
 });
 
-// === Template Change ===
+// === TEMPLATE CHANGE ===
 templateSelect.addEventListener('change', () => {
   resumePreview.className = '';
   if(templateSelect.value==='white') resumePreview.classList.add('template-white');
-  if(templateSelect.value==='blue') resumePreview.classList.add('template-blue');
-  if(templateSelect.value==='gold') resumePreview.classList.add('template-gold');
+  if(templateSelect.value==='black') resumePreview.classList.add('template-black');
 });
 
-// === Job Match Function ===
+// === JOB MATCH ===
 matchJobBtn.addEventListener('click', () => {
   const skills = document.getElementById('skills').value.toLowerCase().split(',');
   const jobDesc = document.getElementById('jobDesc').value.toLowerCase();
   let matchCount = 0;
-  skills.forEach(skill => {
-    if(jobDesc.includes(skill.trim())) matchCount++;
-  });
+  skills.forEach(skill => { if(jobDesc.includes(skill.trim())) matchCount++; });
   const matchPercent = skills.length ? Math.round((matchCount/skills.length)*100) : 0;
-  previewJobMatch.textContent = matchPercent + '%';
+  previewJobMatch.textContent = `Job Match Score: ${matchPercent}%`;
   alert(`Job Match Score: ${matchPercent}%`);
 });
 
-// === PDF Export ===
+// === PDF & Word EXPORT ===
 exportPDFBtn.addEventListener('click', () => {
   html2canvas(resumePreview, {scale:2}).then(canvas=>{
     const imgData = canvas.toDataURL('image/png');
@@ -80,26 +76,22 @@ exportPDFBtn.addEventListener('click', () => {
   });
 });
 
-// === Word Export ===
 exportWordBtn.addEventListener('click', () => {
-  let content = `<html>
-  <head>
-    <style>
-      body {font-family: Arial, sans-serif; padding:20px;}
-      h2 {color:#4A90E2; border-bottom:1px solid #ccc;}
-      .section {margin-bottom:15px;}
-    </style>
-  </head>
-  <body>
-    <h1>${document.getElementById('fullName').value}</h1>
-    <h2>Job Title</h2><p>${document.getElementById('jobTitle').value}</p>
-    <h2>Professional Summary</h2><p>${document.getElementById('summary').value}</p>
-    <h2>Skills</h2><p>${document.getElementById('skills').value}</p>
-    <h2>Education</h2><p>${document.getElementById('education').value}</p>
-    <h2>Certificates</h2><p>${document.getElementById('certificates').value}</p>
-    <h2>Languages</h2><p>${document.getElementById('languages').value}</p>
-  </body>
-  </html>`;
+  let content = `
+    <html>
+      <head>
+        <style>body{font-family:Arial;padding:20px;}h2{color:#111;border-bottom:1px solid #ccc;}.section{margin-bottom:15px;}</style>
+      </head>
+      <body>
+        <h1>${document.getElementById('fullName').value}</h1>
+        <h2>Job Title</h2><p>${document.getElementById('jobTitle').value}</p>
+        <h2>Professional Summary</h2><p>${document.getElementById('summary').value}</p>
+        <h2>Skills</h2><p>${document.getElementById('skills').value}</p>
+        <h2>Education</h2><p>${document.getElementById('education').value}</p>
+        <h2>Certificates</h2><p>${document.getElementById('certificates').value}</p>
+        <h2>Languages</h2><p>${document.getElementById('languages').value}</p>
+      </body>
+    </html>`;
   const blob = new Blob(['\ufeff', content], {type:'application/msword'});
   saveAs(blob, 'resume.doc');
 });
