@@ -1,17 +1,17 @@
 /* === GENERAL === */
 * {margin:0; padding:0; box-sizing:border-box;}
-body {font-family: 'Arial', sans-serif; background:#111; color:white; overflow-x:hidden;}
+body {font-family: 'Arial', sans-serif; background:#111; color:pink; overflow-x:hidden;}
 
 /* === RESUME BUILDER === */
 .container {display:flex; gap:2rem; padding:2rem;}
-form {flex:1; background:#222; padding:2rem; border-radius:15px; display:grid; gap:1rem; box-shadow:0 0 15px rgba(255,255,255,0.2);}
+form {flex:1; background:#452; padding:2rem; border-radius:15px; display:grid; gap:2rem; box-shadow:0 0 15px rgba(255,255,255,0.2);}
 form input, form textarea, form select {padding:0.7rem; border-radius:5px; border:none; background:#111; color:white;}
 form label {color:#fff; font-weight:bold;}
 #resumePreview {flex:1; background:#000; padding:2rem; border-radius:15px; overflow-y:auto; min-height:600px; animation:previewGlow 2s infinite alternate;}
 #resumePreview h2, #resumePreview h3, #resumePreview p {margin-bottom:1rem;}
 
 /* Skills badges */
-#previewSkills span {display:inline-block; background:white; color:black; padding:0.3rem 0.6rem; border-radius:5px; margin:0.2rem; animation:badgeBounce 1s infinite alternate;}
+#previewSkills span {display:inline-block; background:orange; color:silver; padding:0.3rem 0.6rem; border-radius:5px; margin:0.2rem; animation:badgeBounce 1s infinite alternate;}
 @keyframes badgeBounce {0%{transform:translateY(0);}100%{transform:translateY(-5px);}}
 
 /* Buttons */
